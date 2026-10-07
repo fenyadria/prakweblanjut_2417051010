@@ -44,4 +44,44 @@ class UserController extends Controller
         ];
         return view('list_user', $data);
     }
+
+    public function edit($id)
+    {
+        $user = $this->userModel->findOrFail($id);
+        $kelas = $this->kelasModel->getKelas();
+
+        return view('edit_user', [
+            'title' => 'Edit User',
+            'user' => $user,
+            'kelas' => $kelas,
+        ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'nama' => 'required',
+            'npm' => 'required',
+            'kelas_id' => 'required',
+        ]);
+
+        $user = $this->userModel->findOrFail($id);
+
+        $user->update([
+            'nama' => $request->input('nama'),
+            'nim' => $request->input('npm'),
+            'kelas_id' => $request->input('kelas_id'),
+        ]);
+
+        return redirect()->route('user.index')->with('success', 'Data mahasiswa berhasil diperbarui!');
+    }
+
+    public function destroy($id)
+    {
+        $user = $this->userModel->findOrFail($id);
+
+        $user->delete();
+
+        return redirect()->route('user.index')->with('success', 'Data mahasiswa berhasil dihapus!');
+    }
 }

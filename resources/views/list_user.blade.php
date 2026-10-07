@@ -11,6 +11,19 @@
     </a>
 </div>
 
-{{-- Memanggil Komponen Tabel --}}
+@if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show shadow-sm"
+         role="alert">
+        <strong>Berhasil!</strong>
+        {{ session('success') }}
+
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="alert">
+        </button>
+    </div>
+@endif
+
 @include('components.user-table', ['users' => $users])
+
 @endsection
